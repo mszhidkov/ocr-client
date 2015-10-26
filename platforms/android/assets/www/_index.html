@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="windows-1251">
+    <title>Отсылки</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/index.js"></script>
+    <script src="js/jquery-2.0.3.min.js"></script>
+    <script src="js/app.js"></script>
+    <!--<script src="js/camera_handler.js"></script>-->
+</head>
+<body>
+<div id="menu">
+    <div class="menu_header">
+        <div></div>
+    </div>
+    <div class="position_margin">
+        <div>
+        <div class="icons settings"></div>
+        <div class="text_1 text2">Настройки</div>
+        </div>
+        <div>
+        <div class="icons about"></div>
+        <div class="text_1 text2">О программе</div>
+        </div>
+    </div>
+    <div></div>
+</div>
+<div id="shadow_menu"></div>
+    <header id="header">
+
+        <div></div>
+        <nav id="nav">
+            <div class="header_icons_1"></div>
+            <div class="name">Заголовок</div>
+            <div class="header_icons_2"></div>
+        </nav>
+    </header>
+    <div class="invisible_header"></div>
+    <main id="all_page">
+        <div id="validation_and_data">
+            <div id="validation"></div>
+
+            <form id="photo" class="position_margin">
+                <div>
+                    <div class="text_1">Фамилия</div>
+                    <div class="validation_result result_yas"></div>
+                    <div><input type="text" placeholder="" form="photo" class="input_text"></div>
+
+                    <div class="text_1">Имя</div>
+                    <div class="validation_result result_no"></div>
+                    <div><input type="text" placeholder="" form="photo" class="input_text"></div>
+                    <div class="validation_result_no">Ты где-то точно напартачил!</div>
+                    <div class="text_1">Отчество</div>
+                    <div class="validation_result result_yas"></div>
+                    <div><input type="text" placeholder="" form="photo" class="input_text"></div>
+                </div>
+
+                <div class="form_file">
+                    <div class="text_1 display">Фото паспорта</div>
+                    <div class="input_file_2">Добавить</div>
+                    <img src="" style="display: none">
+                </div>
+                <div class="form_file">
+                    <div class="text_1 display">Фото СНИЛС</div>
+                    <div class="input_file_2">Добавить</div>
+                    <img src="" style="display: none">
+                </div>
+                <div class="form_file">
+                    <div class="text_1 display">Фото ИНН</div>
+                    <div class="input_file_2">Добавить</div>
+                    <img src="" style="display: none">
+                </div>
+
+                <input type="submit" value="Принять" form="photo" class="button">
+            </form>
+        </div>
+    </main>
+
+</body>
+
+</html>
+
+<script>
+//    $('.input_file_2').on('click', function(e){
+//        e.preventDefault();
+//        var image = takePicture();
+//        $(this).parent().find('img').attr('src', 'data:image/jpeg;base64,' + image);
+//    });
+</script>

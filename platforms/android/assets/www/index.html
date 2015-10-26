@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="windows-1251">
+    <title>Отсылки</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/index.js"></script>
+    <script src="js/jquery-2.0.3.min.js"></script>
+    <!--<script src="js/app.js"></script>-->
+    <script src="phonegap.js"></script>
+    <script src="js/camera_handler.js"></script>
+    <script src="js/jquery.jsonp.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+</head>
+<body>
+<div id="menu">
+    <div class="menu_header">
+        <div></div>
+    </div>
+    <div class="position_margin">
+        <div>
+        <div class="icons settings"></div>
+        <div class="text_1 text2">Настройки</div>
+        </div>
+        <div>
+        <div class="icons about"></div>
+        <div class="text_1 text2">О программе</div>
+        </div>
+    </div>
+    <div></div>
+</div>
+<div id="shadow_menu"></div>
+    <header id="header">
+
+        <div></div>
+        <nav id="nav">
+            <div class="header_icons_1"></div>
+            <div class="name">Заголовок</div>
+            <div class="header_icons_2"></div>
+        </nav>
+    </header>
+    <div class="invisible_header"></div>
+    <main id="all_page">
+        <div id="validation_and_data">
+            <div id="validation"></div>
+
+            <form id="photo" class="position_margin">
+                <div>
+                    <div>
+                        <div class="text_1">Фамилия</div>
+                        <div class="validation_result"></div>
+                        <div><input name="second_name" id="second_name" type="text" placeholder="" form="photo" class="input_text"></div>
+                        <div class="validation_result_no" style="display: none"></div>
+                    </div>
+
+                    <div>
+                        <div class="text_1">Имя</div>
+                        <div class="validation_result"></div>
+                        <div><input name="first_name" id="first_name" type="text" placeholder="" form="photo" class="input_text"></div>
+                        <div class="validation_result_no" style="display: none"></div>
+                    </div>
+
+                    <div>
+                        <div class="text_1">Отчество</div>
+                        <div class="validation_result"></div>
+                        <div><input name="middle_name" id="middle_name" type="text" placeholder="" form="photo" class="input_text"></div>
+                        <div class="validation_result_no" style="display: none"></div>
+                    </div>
+                </div>
+
+                <div class="form_file">
+                    <div class="text_1 display">Фото паспорта</div>
+                    <div class="input_file_2">Добавить</div>
+                    <div class="preview"><img src="" class="preview_img"></div>
+                    <input name="passport" id="passport" type="hidden">
+                </div>
+                <div class="form_file">
+                    <div class="text_1 display">Фото СНИЛС</div>
+                    <div class="input_file_2">Добавить</div>
+                    <div class="preview"><img src="" class="preview_img"></div>
+                    <input name="snils" id="snils" type="hidden">
+                </div>
+                <div class="form_file">
+                    <div class="text_1 display">Фото ИНН</div>
+                    <div class="input_file_2">Добавить</div>
+                    <div class="preview"><img src="" class="preview_img"></div>
+                    <input name="inn" id="inn" type="hidden">
+                </div>
+
+                <input type="submit" value="Отправить" form="photo" class="button submit_btn">
+            </form>
+        </div>
+    </main>
+
+<div id="dialog-confirm" title="Результаты распознования" style="display: none">
+    <div class="dialog_content">
+        <div class="srv_respose">
+            <p>Паспорт</p>
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+                <ul>
+                    <li>Серия/Номер: 0000 000000</li>
+                    <li>Кем выдан: УВД Траляля по г. Москве в ЮСЗАО</li>
+                    <li>ФИО: Иванов Иван Иванович</li>
+                </ul>
+            </p>
+            <p>СНИЛС</p>
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+            <ul>
+                <li>Серия/Номер: 0000 000000</li>
+                <li>ФИО: Иванов Иван Иванович</li>
+            </ul>
+            </p>
+            <p>ИНН</p>
+            <p>
+                <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+            <ul>
+                <li>ИНН: 0000000000</li>
+            </ul>
+            </p>
+        </div>
+    </div>
+    <div class="separator"></div>
+</div>
+
+</body>
+
+</html>
+
+<script>
+
+    $('.input_file_2').on('click', function(){
+        takePicture($(this));
+    });
+
+    $('input').on('change', function(){
+        if($(this).attr('type') != 'hidden')
+            validateInput($(this));
+    });
+
+    $('.header_icons_1').on('click', function(){
+        var menu = $('#menu');
+        menu.toggle('slide', { direction: 'left' }, 500);
+    });
+
+    $('.submit_btn').on('click', function(e){
+        e.preventDefault();
+        var separator = $('.separator');
+        var dialog_content = $('.dialog_content');
+        var buttonpane = $('.ui-dialog-buttonpane');
+        dialog_content.find('.srv_respose').hide();
+        $( "#dialog-confirm").attr('title','');
+        $( "#dialog-confirm" ).dialog({
+            resizable: false,
+            height:140,
+            modal: true,
+            buttons: {
+                "1": { id: 'close', text: 'Данные верны', click: function(){ $(this).dialog("close"); }, "class": "correct" },
+                "2": { id: 'continue', text: 'Данные не верны', click: function(){ $(this).dialog("close"); }, "class": "wrong" }
+            }
+        });
+        buttonpane.hide();
+        separator.hide();
+        $.ajax({
+            type: "POST",
+            method: "POST",
+            url: "http://ocr-service.rus-telecom.ru/mobile_service_endpoint.php",
+
+            data:  {
+                second_name: $('#second_name').val(),
+                first_name: $('#first_name').val(),
+                middle_name: $('#middle_name').val(),
+                passport: $('#passport').val(),
+                snils: $('#snils').val(),
+                inn: $('#inn').val()
+            },
+            beforeSend: function(){
+                dialog_content.addClass('loading').after('<div class="loader_text">Подождиете. Идет распознование</div>');
+            },
+            error: function (xhr, error, thrownError) {
+                alert('fail  status:[' + xhr.status + ']  error:[' + thrownError + ']');
+            },
+            success: function(rsp){
+                dialog_content.removeClass('loading');
+                $('.loader_text').remove();
+                $('.ui-dialog-buttonpane').show();
+                separator.show();
+                $( "#dialog-confirm").attr('title','Результаты распознования');
+                dialog_content.find('.srv_respose').show();
+            }
+        });
+    });
+
+    function validateInput(input) {
+        console.log(input);
+        var validation_icon = input.parent().parent().find('.validation_result');
+        var error_message = input.parent().parent().find('.validation_result_no');
+        if(input.val().length < 3) {
+            error_message.text('Поле должно быть заполнено (минимум 3 символа).').show();
+            validation_icon.removeClass('result_yes').addClass('result_no');
+        } else {
+            error_message.text('').hide();
+            validation_icon.removeClass('result_no').addClass('result_yes');
+        }
+    }
+</script>
